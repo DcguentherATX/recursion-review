@@ -16,25 +16,30 @@ var getElementsByClassName = function(className) {
   var list = body.classList;
 
   var helperFunc = function(node, className) {
-      var nodeList = node.classList;
-      for(var i = 0; i < nodeList.length; i++ ){
-          if(nodeList[i] === className){
-              nodes.push(node)
+      for(var i = 0; i < node.length; i++ ){
+          if(node[i].classList !== undefined){
+            var nodeList = node[i].classList;
+            if(nodeList.contains(className)){
+                nodes.push(node[i])
+            }
           }
-
-      }
+          if(node[i].hasChildNodes()){
+              helperFunc(node[i].childNodes, className)
+          }
+       }
   }
 
   for (var i = 0; i < list.length; i++){
       if(list[i] === className){
           nodes.push(body);
       }
-  }
+   }
 
   if(body.hasChildNodes()){
       helperFunc(body.childNodes, className)
-
   }
+
+  return nodes;
 
 
 };
